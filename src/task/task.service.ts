@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { task } from 'src/schema/task.schema';
+import { Task } from 'src/schema/task.schema';
 
 @Injectable()
-export class taskService {
+export class TaskService {
 
-    constructor(@InjectModel(task.name) private taskModel: Model<task>) {}
+    constructor(@InjectModel(Task.name) private taskModel: Model<Task>) {}
 
-    gettasks(): Promise<task[]> {
+    gettasks(): Promise<Task[]> {
         
 
         return this.taskModel.find().exec();

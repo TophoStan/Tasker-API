@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
-export type taskDocument = task & Document;
+export type TaskDocument = Task & Document;
 
 
 @Schema()
-export class task {
+export class Task {
     @Prop()
     title: string;
 }
 
-export const taskSchema = SchemaFactory.createForClass(task);
+export const TaskSchema = SchemaFactory.createForClass(Task);

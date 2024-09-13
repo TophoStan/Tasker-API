@@ -1,14 +1,14 @@
 import { Controller, Get } from '@nestjs/common';
-import { taskService } from './task.service';
-import { task } from 'src/schema/task.schema';
+import { Task } from 'src/schema/task.schema';
+import { TaskService } from './task.service';
 
 @Controller('task')
-export class taskController {
+export class TaskController {
 
-    constructor(private readonly taskService: taskService) { }
+    constructor(private readonly taskService: TaskService) { }
 
     @Get()
-    async getChallange(): Promise<task[]> {
+    async getTasks(): Promise<Task[]> {
         return await this.taskService.gettasks();
     }
 }
