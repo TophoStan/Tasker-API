@@ -6,11 +6,33 @@ import { Task } from 'src/schema/task.schema';
 @Injectable()
 export class TaskService {
 
-    constructor(@InjectModel(Task.name) private taskModel: Model<Task>) {}
+    constructor(@InjectModel(Task.name) private taskModel: Model<Task>) { }
 
-    gettasks(): Promise<Task[]> {
-        
-
-        return this.taskModel.find().exec();
+    async getTasks(): Promise<Task[]> {
+        return await this.taskModel.find();
     }
+
+    async getTask(id: string): Promise<Task> {
+        console.log(id);
+        
+        return await this.taskModel.findOne(
+            { id: id }
+        );
+    }
+
+    async createTask(task: Task): Promise<Task> {
+        const newTask = new this.taskModel(task);
+        return await newTask.save();
+    }
+
+    async updateTask(task: Task): Promise<Task> {
+        await this.taskModel.findOneAndUpdate(
+            { id: task['id'] },
+            task,
+            { new: true }
+        )
+        return await this.taskModel.findById(task['id']);
+    }
+
+
 }
