@@ -9,7 +9,17 @@ export class TaskController {
 
     @Get()
     async getTasks(): Promise<Task[]> {
+        return await this.taskService.getTasksNotOverdue();
+    }
+
+    @Get('allTasks')
+    async getAllTasks(): Promise<Task[]> {
         return await this.taskService.getTasks();
+    }
+
+    @Get('makeTasksDatabaseTruthy')
+    async makeTasksDatabaseTruthy() {
+        return await this.taskService.makeTasksDatabaseTruthy();
     }
 
     @Get(':id')
@@ -22,8 +32,8 @@ export class TaskController {
         return await this.taskService.createTask(task);
     }
 
-    @Put()
-    async updateTask(@Body() task: Task): Promise<Task> {
-        return await this.taskService.updateTask(task);
+    @Put(':id')
+    async updateTask(@Param() params, @Body() task: Task): Promise<Task> {
+        return await this.taskService.updateTask(task, params.id);
     }
 }

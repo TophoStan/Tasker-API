@@ -9,11 +9,23 @@ export class Task {
     @Prop({type: String, default: uuid})
     id: string;
 
-    @Prop()
+    @Prop({required: true})
     title: string;
 
-    @Prop({default: false})
-    isFinished: boolean;
+    @Prop({default: false, required: true})
+    isCompleted: boolean;
+
+    @Prop({default: Date.now})
+    createdAt: Date;
+
+    @Prop({default: Date.now})
+    updatedAt: Date;
+
+    @Prop({default: null})
+    DateTimeToBeCompletedBy: Date;
+
+    @Prop({default: false, required: true})
+    isOverdue: boolean;
 
 }
 
