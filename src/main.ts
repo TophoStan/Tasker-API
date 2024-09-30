@@ -3,10 +3,10 @@ import { AppModule } from './app.module';
 import * as fs from 'fs';
 
 
-const httpsOptions = {
+const httpsOptions = !(process.env.NODE_ENV === 'production') ? {
   key: fs.readFileSync('./secrets/localhost-key.pem'),
   cert: fs.readFileSync('./secrets/localhost.pem'),
-};
+} : null;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
