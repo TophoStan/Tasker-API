@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Mongoose, Schema as MongooseSchema } from "mongoose";
 import {v4 as uuid} from 'uuid';
 export type TaskDocument = Task & Document;
 
@@ -26,6 +27,12 @@ export class Task {
 
     @Prop({default: false, required: true})
     isOverdue: boolean;
+
+    @Prop({default: null})
+    userId: string;
+
+    @Prop({default: null, type: MongooseSchema.Types.ObjectId, ref: 'User'})
+    userMongoId: string;
 
 }
 

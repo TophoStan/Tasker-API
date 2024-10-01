@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { Task } from 'src/schema/task.schema';
 import { TaskService } from './task.service';
+import { InjectToken } from 'src/schema/token.class';
 
 @Controller('task')
 export class TaskController {
@@ -8,8 +9,9 @@ export class TaskController {
     constructor(private readonly taskService: TaskService) { }
 
     @Get()
-    async getTasks(): Promise<Task[]> {
-        return await this.taskService.getTasksNotOverdue();
+    async getTasks(@InjectToken() token): Promise<Task[]> {
+
+        return await this.taskService.getTasksNotOverdue(token.id);
     }
 
     @Get('allTasks')
@@ -28,8 +30,8 @@ export class TaskController {
     }
 
     @Post()
-    async createTask(@Body() task: Task): Promise<Task> {
-        return await this.taskService.createTask(task);
+    async createTask(@Body() task: Task, @InjectToken() token): Promise<Task> {
+        return await this.taskService.createTask(task, token.id );
     }
 
     @Put(':id')
