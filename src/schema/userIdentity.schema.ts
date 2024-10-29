@@ -12,7 +12,7 @@ export class UserIdentity {
     @Prop({required: true})
     username: string;
 
-    @Prop({required: true})
+    @Prop({required: true, unique: true})
     email: string;
 
     // Is a hashed password

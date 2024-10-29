@@ -1,4 +1,4 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotImplementedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserIdentity } from 'src/schema/userIdentity.schema';
@@ -23,6 +23,13 @@ export class UserService {
 
         const hashedPwd = await hash(user.password, 10);
 
+        // Look for existing user
+        const findUser = await this.UserIdentityModel.findOne({ email: user.email });
+
+        if (findUser) {
+            throw new NotImplementedException('User already exists');
+        }
+
         const createIdentityUser = await (await this.UserIdentityModel.create({
             username: user.username,
             email: user.email,
@@ -42,13 +49,13 @@ export class UserService {
         const findUser = await this.UserIdentityModel.findOne({ email: user.email });
 
         if (!findUser) {
-            throw new NotImplementedException('User not found');
+            throw new HttpException('User not found', 404);
         }
 
         const match = await compare(user.password, findUser.password);
 
         if (!match) {
-            throw new NotImplementedException('Invalid password');
+            throw new HttpException('Invalid password', HttpStatus.NOT_FOUND);
         }
 
         const userData = await this.UserDataModel.findOne({ id: findUser.id });
